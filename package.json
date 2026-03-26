@@ -15,7 +15,9 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "@ai-sdk/xai": "^3.0.74",
     "@openrouter/sdk": "^0.9.11",
+    "ai": "^6.0.138",
     "axios": "^1.13.6",
     "dotenv": "^17.3.1"
   }
