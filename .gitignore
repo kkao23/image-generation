@@ -2,3 +2,4 @@
 .env
 benchmark_output/
 *.png
+*.mp4
