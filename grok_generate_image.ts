@@ -1,6 +1,7 @@
 import { createXai } from "@ai-sdk/xai";
 import { generateImage } from "ai";
 import fs from 'fs';
+import 'dotenv/config';
 
 const xai = createXai({
     apiKey: process.env.XAI_API_KEY!,

@@ -1,6 +1,7 @@
 import { createXai } from "@ai-sdk/xai";
 import { experimental_generateVideo as generateVideo } from "ai";
 import fs from "fs";
+import 'dotenv/config';
 
 const xai = createXai({
     apiKey: process.env.XAI_API_KEY!,
