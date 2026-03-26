@@ -4,7 +4,7 @@ import * as path from 'path';
 
 // Load your API Key from .env
 const openRouter = new OpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY || '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',
+    apiKey: process.env.OPENROUTER_API_KEY!
 });
 
 // The Benchmarking Prompt (optimized for modern 2026 line-art and sweat)
