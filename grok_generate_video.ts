@@ -10,8 +10,8 @@ const xai = createXai({
 const { video } = await generateVideo({
     model: xai.video("grok-imagine-video"),
     prompt: {
-        image: fs.readFileSync("grok_1774488871062.png"),
-        text: ""
+        image: fs.readFileSync("grok_1778512462542.png"),
+        text: "The woman presents her clipboard, talking excitedly and happily to the camera"
     },
     providerOptions: {
         xai: { duration: 4, aspectRatio: "16:9", resolution: "720p" },
@@ -19,4 +19,4 @@ const { video } = await generateVideo({
 });
 
 // The AI SDK downloads the video automatically — save the raw bytes
-fs.writeFileSync("output.mp4", video.uint8Array);
+fs.writeFileSync(`output_${Date.now()}.mp4`, video.uint8Array);

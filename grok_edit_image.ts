@@ -1,35 +1,39 @@
-import { createXai } from "@ai-sdk/xai";
-import { generateImage } from "ai";
 import fs from "fs";
 import 'dotenv/config';
 
-const xai = createXai({
-    apiKey: process.env.XAI_API_KEY!,
-});
-
-// Load image and encode as base64
-const imageBuffer = fs.readFileSync("grok_1774488871062.png");
+const imageBuffer = fs.readFileSync("image-23b87613.png");
 const base64Image = imageBuffer.toString("base64");
 
-const { image } = await generateImage({
-    model: xai.image("grok-imagine-image"),
-    prompt: "this doesnt work",
-    providerOptions: {
-        xai: {
-            image: `data:image/png;base64,${base64Image}`,
-        },
+const response = await fetch("https://api.x.ai/v1/images/edits", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.XAI_API_KEY}`,
     },
+    body: JSON.stringify({
+        model: "grok-imagine-image-quality",
+        // prompt: "High-detail digital anime illustration, realistic proportions, female character, soft skin rendering with subsurface scattering. Retain clothing, retain background. small bust, A cup breasts. volumetric fog, sharp focus, 8k resolution, hyper-detailed rendering. Have the woman face the camera",
+        prompt: "change the girl's haircut to a medium length bob. She should not have bangs",
+        image: {
+            type: "image_url",
+            url: `data:image/png;base64,${base64Image}`,
+        },
+        // aspect_ratio is ignored for single-image edits (follows source image)
+    }),
 });
 
-//console.log(image.base64);
+const data = await response.json();
 
-const base64Data = image.base64;
-const buffer = Buffer.from(base64Data!, 'base64');
+if (!response.ok) {
+    console.error("API error:", data);
+    process.exit(1);
+}
 
-const timestamp = Date.now();
-const filename = `grok_${timestamp}.png`;
-const fullPath = `./${filename}`;
+// Response contains a URL by default — download it
+const imageUrl = data.data[0].url;
+const imgResponse = await fetch(imageUrl);
+const buffer = Buffer.from(await imgResponse.arrayBuffer());
 
-
-fs.writeFileSync(fullPath, buffer);
-process.stdout.write(`✅ Saved to ${filename}\n`);
+const filename = `grok_${Date.now()}.png`;
+fs.writeFileSync(filename, buffer);
+console.log(`✅ Saved to ${filename}`);

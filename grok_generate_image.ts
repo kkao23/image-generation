@@ -8,8 +8,9 @@ const xai = createXai({
 });
 
 const { image } = await generateImage({
-    model: xai.image("grok-imagine-image"),
-    prompt: "",
+    model: xai.image("grok-imagine-image-quality"),
+    prompt: "anime style attractive young blonde woman with wavy blonde hair wearing athleisure clothes caught in an evil spell, look of surprise on her face, in her bedroom",
+    aspectRatio: "9:16"
 });
 
 //console.log(image.base64);
